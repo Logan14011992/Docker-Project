@@ -16,7 +16,7 @@ pipeline {
     }
 
     stage('Build image') {
-      steps{
+      steps {
         script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
         }
@@ -24,7 +24,7 @@ pipeline {
     }
 
     stage('Push Image') {
-      steps{
+      steps {
         script {
           docker.withRegistry( "" ) {
             dockerImage.push()
@@ -34,14 +34,14 @@ pipeline {
     }
 
     stage('current') {
-      steps{
+      steps {
         dir("${env.WORKSPACE}/mysql"){
           sh "pwd"
           }
       }
    }
    stage('Build mysql image') {
-     steps{
+     steps {
        sh 'docker build -t "10.138.0.3:5001/mgsgoms/mysql:$BUILD_NUMBER"  "$WORKSPACE"/mysql'
         sh 'docker push "10.138.0.3:5001/mgsgoms/mysql:$BUILD_NUMBER"'
         }
